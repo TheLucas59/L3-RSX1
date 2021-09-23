@@ -76,3 +76,22 @@ L'efficacité pour le deuxième message est de 19/61 = 31.15%.
 
 ### Question 16
 image
+
+## TCP
+### Question 1
+image
+
+### Question 2
+image
+
+### Question 3
+image
+
+### Question 4
+image
+
+### Question 5
+image
+
+### Question 6 
+La socket serveur est la socket qui écoute, soit S2 et la socket client est la socket S1 qui enverra des messages à S2.
