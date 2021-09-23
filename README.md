@@ -18,8 +18,8 @@ Après avoir compris l'utilisation de ce langage, effacez cette section et rempl
 ---
 
 ### Binôme
-1. NOM<sub>1</sub> Prénom<sub>1</sub>
-2. NOM<sub>2</sub> Prénom<sub>2</sub>
+1. Plé<sub>1</sub> Lucas<sub>1</sub>
+2. Plancke<sub>2</sub> Aurélien<sub>2</sub>
 
 
 ---
