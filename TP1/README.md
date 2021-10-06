@@ -161,7 +161,7 @@ On ne peut pas envoyer un autre message sur cette socket car la connexion a ét�
 a) 
 ![schemaTCP](./Screenshots/TCPQ18A.png "schemaTCP")
 
-b) En tout, 8 segments TCP ont été transmis lors de la connexion et de l'envoi des messages. C'est quatre fois plus qu'en UDP.
+b) En tout, 9 segments TCP ont été transmis lors de la connexion et de l'envoi des messages. C'est quatre fois plus qu'en UDP.
 
 c) Pour le message "Comment allez-vous ?" nous avons envoyé 20 octets de données et la trame avait une taille de 86 octets.
 
