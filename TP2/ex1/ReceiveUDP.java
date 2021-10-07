@@ -1,5 +1,3 @@
-package tp;
-
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -10,7 +8,7 @@ public class ReceiveUDP {
 	public static void main(String[] args) {
 		DatagramSocket s = null;
 		try {
-			s = new DatagramSocket(1024);
+			s = new DatagramSocket(Integer.parseInt(args[0]));
 		} catch (SocketException e) {
 			e.printStackTrace();
 			System.exit(1);
@@ -26,8 +24,8 @@ public class ReceiveUDP {
 		}
 		
 		System.out.println("paquet reçu de :" + p.getAddress() +
-				"port :" + p.getPort() +
-				"taille : " + p.getLength());
+				"\nport :" + p.getPort() +
+				"\ntaille : " + p.getLength());
 		
 		System.out.println("mesage : " + new String(p.getData()));
 		s.close();
