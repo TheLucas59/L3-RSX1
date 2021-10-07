@@ -1,34 +1,49 @@
 import java.io.IOException;
 import java.net.DatagramPacket;
-import java.net.DatagramSocket;
+import java.net.MulticastSocket;
 import java.net.SocketException;
+import java.net.InetAddress;
 
 public class ReceiveUDP {
 	
 	public static void main(String[] args) {
-		DatagramSocket s = null;
+		MulticastSocket s = null;
 		try {
-			s = new DatagramSocket(Integer.parseInt(args[0]));
-		} catch (SocketException e) {
+			s = new MulticastSocket(7654);
+		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(1);
 		}
-		
-		DatagramPacket p = new DatagramPacket(new byte[512], 512);
+
+        InetAddress multicast = null;
+        try {
+            multicast = InetAddress.getByName("224.0.0.1");
+        }
+        catch(IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+
+        try {
+            s.joinGroup(multicast);
+        }
+        catch(IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+		DatagramPacket p = null;
 		
 		try {
-			s.receive(p);
+            while(true) {
+                s.receive(p);
+                p = new DatagramPacket(new byte[512], 512);
+                System.out.println("mesage : " + new String(p.getData()));
+            }
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(1);
 		}
 		
-		System.out.println("paquet reçu de :" + p.getAddress() +
-				"\nport :" + p.getPort() +
-				"\ntaille : " + p.getLength());
-		
-		System.out.println("mesage : " + new String(p.getData()));
-		s.close();
 	}
 	
 }
