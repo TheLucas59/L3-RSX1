@@ -5,10 +5,10 @@ import java.net.SocketException;
 import java.net.InetAddress;
 import java.util.Scanner;
 
-public class SendUDP {
-
-    public static void main(String[] args) {
-		DatagramSocket s = null;
+public class SendThread implements Runnable {
+    
+    public void run() {
+        DatagramSocket s = null;
 		try {
 			s = new DatagramSocket();
 		} catch (SocketException e) {
@@ -45,4 +45,3 @@ public class SendUDP {
         sc.close();
     }
 }
-	
