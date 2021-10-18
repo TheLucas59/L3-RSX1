@@ -40,9 +40,10 @@ public class SendUDP {
             e.printStackTrace();
             System.exit(1);
         }
-
-        s.close();
-        sc.close();
+        finally {
+            s.close();
+            sc.close();
+        }
     }
 }
 	
