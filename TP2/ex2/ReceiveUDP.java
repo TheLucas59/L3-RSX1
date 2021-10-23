@@ -37,7 +37,7 @@ public class ReceiveUDP {
             while(true) {
                 p = new DatagramPacket(new byte[512], 512);
                 s.receive(p);
-                System.out.println("mesage : " + new String(p.getData()));
+                System.out.println("message : " + new String(p.getData()));
             }
 		} catch (IOException e) {
 			e.printStackTrace();
