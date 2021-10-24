@@ -67,3 +67,12 @@ cd ./ex3
 make
 ```
 
+### Question 1
+Il faut diviser le programme en deux parties distinctes : une partie qui va gérer la réception de messages et une autre qui gérera l'envoi des messages. On peut utiliser pour cela les `Thread` qui permettront de lancer deux processus légers au sein du programme. Ainsi, les deux boucles qui attendent soit la réception d'un message, soit l'envoi d'un message sur l'entrée standard pourront être actives en même temps et donc donner un chat puisque plusieurs personnes pourront parler en même temps sur le même canal.
+
+### Question 2
+Lors du lancement du programme, on demande à l'utilisateur d'entrer son nom. On instancie le thread gérant l'envoi des messages avec ce nom d'utilisateur. Ce nom est passé en attribut au thread et, à chaque envoi de message, on rajoute le nom d'utilisateur devant la chaîne de caractère qu'a entré l'utilisateur. Ainsi, le message envoyé sur le multicast sera de la forme :
+```
+<nom_d'utilisateur>: <message>
+```
+On pourra donc s'adresser à la même personne en sachant son nom qui s'affichera devant chacun de ses messages.

@@ -4,7 +4,7 @@ import java.net.MulticastSocket;
 import java.net.SocketException;
 import java.net.InetAddress;
 
-public class ReceiveThread implements Runnable {
+public class ReceiveThread extends Thread {
 
     public void run() {
         MulticastSocket s = null;
@@ -37,7 +37,7 @@ public class ReceiveThread implements Runnable {
             while(true) {
                 p = new DatagramPacket(new byte[512], 512);
                 s.receive(p);
-                System.out.println("mesage : " + new String(p.getData()));
+                System.out.println(new String(p.getData()));
             }
 		} catch (IOException e) {
 			e.printStackTrace();

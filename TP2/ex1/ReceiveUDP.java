@@ -27,7 +27,7 @@ public class ReceiveUDP {
 				"\nport :" + p.getPort() +
 				"\ntaille : " + p.getLength());
 		
-		System.out.println("mesage : " + new String(p.getData()));
+		System.out.println("message : " + new String(p.getData()));
 		s.close();
 	}
 	

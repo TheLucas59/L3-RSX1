@@ -7,43 +7,13 @@ import java.util.Scanner;
 
 public class Chat {
     public static void main(String[] args) {
-        ReceiveThread threadReceive = new ReceiveThread();
-        threadReceive.run();
-
-        DatagramSocket s = null;
-		try {
-			s = new DatagramSocket();
-		} catch (SocketException e) {
-			e.printStackTrace();
-			System.exit(1);
-		}
-
+        System.out.println("Entrez votre nom :");
         Scanner sc = new Scanner(System.in);
+        String name = sc.next();
+        ReceiveThread threadReceive = new ReceiveThread();
+        SendThread threadSend = new SendThread(name);
 
-        InetAddress dst = null;
-        try {
-            dst = InetAddress.getByName("224.0.0.1");
-        }
-        catch(IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-
-        int dstPort = 7654;
-
-        try {
-            while(true) {
-                byte[] buffer = sc.nextLine().getBytes();
-                DatagramPacket p = new DatagramPacket(buffer, buffer.length, dst, dstPort);
-                s.send(p);
-            }
-        }
-        catch(IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-
-        s.close();
-        sc.close();
+        threadReceive.start();
+        threadSend.start();
     }
 }
