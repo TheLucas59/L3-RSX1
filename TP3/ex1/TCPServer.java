@@ -4,12 +4,29 @@ import java.io.PrintStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.IOException;
+import java.io.File;
+import java.io.FileWriter;
+
 
 public class TCPServer {
+
+    public static void writeLogs(File log, Socket socket) {
+        try {
+            FileWriter f = new FileWriter(log);
+            String infos = "IP: " + socket.getInetAddress().toString() + ", Port: " + socket.getPort() + "\n";
+            f.write(infos, offset, infos.length());
+            f.close();
+        }
+        catch(IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
 
     public static void main(String[] args) {
         ServerSocket socketServer = null;
         Socket socket = null;
+
         try {
             socketServer = new ServerSocket(2021);
         }
@@ -19,6 +36,7 @@ public class TCPServer {
         }
 
         while(true) {
+
             try {
                 socket = socketServer.accept();
             }
@@ -29,6 +47,7 @@ public class TCPServer {
 
             InputStream in = null;
             OutputStream out = null;
+
             try {
                 in = socket.getInputStream();
                 out = socket.getOutputStream();
@@ -42,7 +61,11 @@ public class TCPServer {
                 out.write("Bienvenue sur mon serveur et au revoir.".getBytes());
                 File log = new File("./log.txt");
                 if(log.exists()) {
-                    
+                    writeLogs(log, socket);
+                }
+                else {
+                    log.createNewFile();
+                    writeLogs(log, socket);
                 }
             }
             catch(IOException e) {
