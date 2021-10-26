@@ -22,6 +22,21 @@ Toutes les exceptions à traiter dans ce programme sont des `IOException`. Elles
 ### Question 3
 Pour tester le bon fonctionnement du serveur, on le lance et on essaie de s'y connecter localement et depuis une autre machine du réseau local. En utilisant le client `telnet` on voit bien la réponse du serveur au client. Si la connexion réussie, on voit bien le message de bienvenue ainsi que le message `Connexon closed by foreign host`.
 
+On utilise telnet de cette façon :
+```bash
+telnet <adresse_ip> <port>
+```
+
+Par exemple, en salle TP, j'ai utilisé telnet de cette façon sur ma machine :
+```bash
+telnet localhost 2021
+```
+
+Mon voisin s'est connecté à mon serveur de cette façon :
+```bash
+telnet a11p8 2021
+```
+
 ### Question 4
 Pour que le programme accepte les connexions en boucle et les traite une par une, on met le code permettant d'accepter une connexion et d'écrire le message de bienvenue dans une boucle infinie. Ainsi, lorsque le serveur aura terminé de traiter une connexion, il va attendre de recevoir une prochaine connexion et ce jusqu'à ce qu'on l'arrête manuellement. 
 
