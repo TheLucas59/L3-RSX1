@@ -1,13 +1,14 @@
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.io.PrintStream;
 import java.io.OutputStream;
 import java.io.IOException;
 import java.io.File;
 import java.io.FileWriter;
-
+import java.util.List;
+import java.util.ArrayList;
 
 public class TCPServer {
+    protected static List<Socket> activeSockets = new ArrayList<>();
 
     public static void writeLogs(File log, Socket socket) {
         try {
@@ -38,6 +39,9 @@ public class TCPServer {
 
             try {
                 socket = socketServer.accept();
+                activeSockets.add(socket);
+                Thread socketThread = new SocketThread(socket);
+                socketThread.start();
             }
             catch(IOException e) {
                 e.printStackTrace();
@@ -70,13 +74,6 @@ public class TCPServer {
                 System.exit(1);
             }
 
-            try {
-                socket.close();
-            }
-            catch(IOException e) {
-                e.printStackTrace();
-                System.exit(1);
-            }
         }
     }
 

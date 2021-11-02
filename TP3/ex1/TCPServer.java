@@ -55,7 +55,7 @@ public class TCPServer {
             }
 
             try {
-                out.write("Bienvenue sur mon serveur et au revoir.".getBytes());
+                out.write("Bienvenue sur mon serveur et au revoir.\n".getBytes());
                 File log = new File("./log.txt");
                 if(log.exists()) {
                     writeLogs(log, socket);
