@@ -6,13 +6,19 @@
 1. Sur votre machine, quel est le nom de l’interface connectée au réseau de la salle de TP ? Quelle est son
 adresse IPv4 ? Quelle est son adresse IPv6 ? Quelle est son adresse MAC ?
 
-    **Remplacez cette phrase avec votre réponse.**
+    eth2 : 
+
+    iPv4 : 192.168.5.57/24
+
+    iPv6 : fe80::e654:e8ff:fe59:7df7/64
+
+    MAC : e4:54:e8:59:7d:f7
 
 2. Donnez les principales caractéristiques de cette interface : quelle est sa vitesse actuelle ? Est-ce la vitesse
 maximale supportée par l’interface ? Quel le mode de duplex ? Vérifiez que l’interface est bien
 connectée.
 
-    **Remplacez cette phrase avec votre réponse.**
+    
 
 3. Quelle est la classe de l’adresse IPv4 ? Quel est son masque ? Quelle est l’adresse du réseau au format
 CIDR ? Quelle est l’adresse de broadcast ? Combien d’hôtes peut-on adresser sur ce réseau ? Cette
