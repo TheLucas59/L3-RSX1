@@ -3,38 +3,66 @@
 
 ## Adressage
 
+### (Réalisée sur une machine virtuelle à la maison)
+
 1. Sur votre machine, quel est le nom de l’interface connectée au réseau de la salle de TP ? Quelle est son
 adresse IPv4 ? Quelle est son adresse IPv6 ? Quelle est son adresse MAC ?
 
-    eth2 : 
+    J'ai éxecuté la commande `ip address` pour obtenir ces informations.
 
-    iPv4 : 192.168.5.57/24
+    L'interface connectée au réseau est enp0s3.
 
-    iPv6 : fe80::e654:e8ff:fe59:7df7/64
+    iPv4 : 10.0.2.15/24
 
-    MAC : e4:54:e8:59:7d:f7
+    iPv6 : fe80::a00:27ff:fe96:5ed4/64
+
+    MAC : 08:00:27:96:5e:d4
 
 2. Donnez les principales caractéristiques de cette interface : quelle est sa vitesse actuelle ? Est-ce la vitesse
 maximale supportée par l’interface ? Quel le mode de duplex ? Vérifiez que l’interface est bien
 connectée.
 
-    
+    J'ai éxécuté la commande `sudo ethtool enp0s3`
+
+    Vitesse : 1000Mb/s. C'est la vitesse maximale supportée par l'interface.
+
+    Mode de duplex : Full-duplex
+
+    L'interface est bien connectée : on le voit à la ligne `Link detected : yes`
+
+    ![ethtool](./Screenshots/P1Q2.png "caractéristiques")
 
 3. Quelle est la classe de l’adresse IPv4 ? Quel est son masque ? Quelle est l’adresse du réseau au format
 CIDR ? Quelle est l’adresse de broadcast ? Combien d’hôtes peut-on adresser sur ce réseau ? Cette
 adresse est-elle routable au sein d’un réseau local ? Est-elle routable sur internet ?
 
-    **Remplacez cette phrase avec votre réponse.**
+    L'adresse IPv4 est une adresse de classe A de masque 24 bits.
+
+    Adrese réseau au format CDIR : 10.0.2.0/24
+    Adresse de broadcoast : 10.0.2.255
+    
+    On peut adresser 254 machines sur ce réseau. Cette adresse est routable au sein d'un réseau local mais pas sur internet car il s'agit d'une adresse privée.
 
 4. Écrivez les 16 octets de l’adresse IPv6 sans abréviation. Écrivez en dessous les 16 octets du masque.
 Combien d’hôtes peut-on adresser sur ce réseau ? Cette adresse est-elle routable au sein d’un réseau
 local ? Est-elle routable sur internet ? Quelle est l’étendue (scope) de cette adresse ?
 
-    **Remplacez cette phrase avec votre réponse.**
+    IPv6 :   fe80:0000:0000:0000:ee7b:bef7:0a0d:29f0/64
+
+    Masque : ffff:ffff:ffff:ffff:0000:0000:0000:0000/64
+
+    On peut adresser sur ce réseau `2^(128-64) - 2` machines, soit 18,446,744,073,709,551,614 machines.
+
+    Cette adresse est utilisable dans un réseau local. Elle n'est pas routable sur internet mais uniquement sur un réseau local.
+    C'est une adresse de lien local.
 
    Affichez la table de routage. Quelle est l’adresse de la passerelle IP ?
 
-    **Remplacez cette phrase avec votre réponse.**
+    J'ai éxecuté la commande `ip route` pour acéder à la table de routage.
+
+    L'adresse de la passerelle IP semble être `10.135.4.1`
+
+    ![iproute](./Screenshots/P1Q4.png "table de routage")
 
 5. Avec Wireshark, lancez une capture de trames sur l’interface connectée au réseau de la salle de TP.
 Testez la connectivité IPv4 et IPv6 avec votre voisin.
