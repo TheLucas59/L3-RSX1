@@ -67,7 +67,10 @@ local ? Est-elle routable sur internet ? Quelle est l’étendue (scope) de cett
 5. Avec Wireshark, lancez une capture de trames sur l’interface connectée au réseau de la salle de TP.
 Testez la connectivité IPv4 et IPv6 avec votre voisin.
 
-    **Remplacez cette phrase avec votre réponse.**
+    J'ai exécuté la commande suivante pour ouvrir wireshark : `sudo wireshark -i enp0s3`
+
+    Comme je travaille chez moi sur ma machine virtuelle, j'ai ping mon ordinateur qui a pour adresse privée 192.168.0.49.
+    J'ai donc éxecuté `ping 192.168.0.49`. On voit sur wireshark les trames échangées par la commande ping mais aussi toutes les autres trames qui passent par l'interface `enp0s3`.
 
 6. Arrêtez la capture . La transmission qui nous intéresse est noyée parmi d’autres trames qui nous
 parasitent.
@@ -77,18 +80,31 @@ contiennent pas toujours un paquet IP.
 Pour savoir comment utiliser les filtres d’affichage, référez-vous à l’aide de Wireshark :
 [https://www.wireshark.org/docs/wsug_html_chunked/ChWorkDisplayFilterSection.html](https://www.wireshark.org/docs/wsug_html_chunked/ChWorkDisplayFilterSection.html)
 
-    **Remplacez cette phrase avec votre réponse.**
+    Pour ne voir que les trames du ping, il faut filtrer les trames qui ont pour ip source l'ip de ma machine virtuelle (10.0.2.15) et pour ip de destination l'ip de mon ordinateur (192.168.0.49).
+
+    L'expression s'écrit ainsi sur wireshark : `(ip.src == 10.0.2.15) && (ip.dst == 192.168.0.49)` pour voir les trames partant de la machine virtuelle ou `ip.src == 192.168.0.49) && (ip.dst == 10.0.2.15)` pour voir les trames réponses du ping envoyées par mon ordinateur.
+
+    On voit mieux les trames correspondant au ping : 
+
+    ![ping](./Screenshots/P1Q6.png "trames ping")
+
+    On voit bien que la machine essaie d'envoyer une trame de 98 octets vers la machine que l'on tente de ping. Si cette-dernière reçoit la trame, elle la renvoie avec un numéro de séquence incrémenté.
 
 7. Quel est le protocole utilisé pour tester la connectivité IP ? Ce protocole est le couteau suisse d’IP. Il ne
 sert pas seulement à tester la connectivité IP. Quel est le type et le code des messages de requête et de
 réponse ?
 
-    **Remplacez cette phrase avec votre réponse.**
+    ![trame](./Screenshots/P1Q7.png "exemple trame ping")
+
+    Le protocole utilisé est le protocole ICMP (Internet Control Message Protocol). Les messages de requête ont un type fixé à 8 (qui signifie que cette trame est une requête ping). Les messages de réponse ont un type fixé à 0. Le code est fixé à 0. 
 
 8. La plupart des protocoles réseau permettent, dans l’entête, de spécifier quel est le type du contenu
 véhiculé.
 Donnez le code du contenu de la trame ethernet.
 Donnez le code du contenu du paquet IP.
+
+    Le type du contenu de la trame ethernet est un paquet IPv4.
+    Le type du contenu du paquet IP est un datagramme ICPM.
 
    Les paquets IP transmis à votre voisin sont encapsulés dans des trames ethernet. Pour que ces trames parviennent à destination, il faut connaître l’adresse ethernet de votre voisin. Cette adresse est aussi appelée adresse matérielle ou adresse MAC (Media Access Control), ou encore adresse de couche liaison..
 
@@ -96,7 +112,13 @@ Donnez le code du contenu du paquet IP.
 est l’adresse matérielle de destination de la requête ? Que signifie cette adresse ? Quelle est la question
 posée par la requête ?
 
-    **Remplacez cette phrase avec votre réponse.**
+    ![arp](./Screenshots/P1Q9.png "ARP + ping")
+    Avant l'envoi du ping IPv4, on voit effectivement un échange de messages ARP. Dans mon cas, cet échange est un peu particuilier : comme je réalise cette partie sur une machine virtuelle sous VirtualBox, l'adresse de destination de requête est l'adresse `10.0.2.2` et non l'adresse ip de mon smartphone `192.168.0.24`. L'adresse `10.0.2.2` représente la gateway de la machine virtuelle vers l'extérieur. Le message ARP est envoyé sur cette gateway.
+
+    ![requête arp](./Screenshots/P1Q9(2).png "ARP requête")
+    L'adresse matérielle de destination de la requête est 00:00:00:00:00:00 (l'adresse ip est bien 10.0.2.2)
+    Cette adresse est la gateway de la machine virtuelle vers l'extérieur.
+    La question posée par la requête est "Qui a l'adresse 10.0.2.2 ?"
 
 10. Avant l’envoi du ping IPv6, un échange de messages ICMPv6 de type Neighbor Solicitation et Neighbor
 Advertisement a eu lieu. Quelle est l’adresse matérielle de destination de la requête ? Que signifie cette
@@ -112,12 +134,14 @@ ont une durée de vie limitée à quelques minutes.
 
 12. A quelles couches du modèle OSI appartiennent les protocoles ethernet, IP, ICMP ?
 
-    **Remplacez cette phrase avec votre réponse.**
+    Le protocole ethernet appartient à la couche physique et liaison de données.
+    Le protocole IP appartient à la couche réseau.
+    Le protocole ICMP appartient également à la couche réseau.
 
 13. Selon vous, de manière générale, pourquoi utilise-t-on l'adresse IP et non uniquement l'adresse MAC pour
 les communications réseaux ?
 
-    **Remplacez cette phrase avec votre réponse.**
+    Les adresses MAC permettent de réaliser des communications au sein du réseau local car des équipements comme les switchs ne savent pas travailler au-delà de la couche liaison de données. Par contre, on ne peut pas utiliser seulement les adresses MAC pour toutes les communications réseaux. Il est possible qu'une autre carte réseau ait la même adresse MAC que la notre sur un réseau à l'autre bout du monde. C'est pour ça que l'on utilise également l'adresse IP, le tout épaulé par le protocole ARP. On peut alors avoir un identifiant unique avec l'adresse IP d'une adresse MAC sur le réseau. Une adresse IP accessible depuis internet (qui n'est donc pas privée) est unique alors que les adresses MAC ne le sont pas forcément. C'est pour ça qu'on utilise plus l'adresse IP pour les communications réseaux en général.
 
 ## Point-à-point
 
