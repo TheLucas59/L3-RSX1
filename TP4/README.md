@@ -120,11 +120,14 @@ posée par la requête ?
     Cette adresse est la gateway de la machine virtuelle vers l'extérieur.
     La question posée par la requête est "Qui a l'adresse 10.0.2.2 ?"
 
+
+    Questions 10 et 11 réalisées en salle B05 (problème d'IPv6 sur ma machine virtuelle).
+
 10. Avant l’envoi du ping IPv6, un échange de messages ICMPv6 de type Neighbor Solicitation et Neighbor
 Advertisement a eu lieu. Quelle est l’adresse matérielle de destination de la requête ? Que signifie cette
 adresse ? Quelle est l’adresse IP de destination de la requête ? A quoi correspond cette adresse ?
-
-    **Remplacez cette phrase avec votre réponse.**
+Mon adresse : fe80::e654:e8ff:fe59:7df7/64
+Son adresse : fe80::e654:e8ff:fe59:6562/64
 
 11. Affichez la liste des correspondances entre adresses IP et adresses ethernet. Vérifiez que l’adresse IPv4 et
 l’adresse IPv6 de votre voisin y figurent, associées à son adresse MAC. Attention : les entrées de ce cache
@@ -150,27 +153,42 @@ baie de brassage.
 
 1. Vous utilisez un câble droit ou un câble croisé ?
 
-    **Remplacez cette phrase avec votre réponse.**
+    On utilise un câble croisé sur la baie et un câble droit vers la prise murale.
 
 2. Quelle commande utilisez-vous pour vérifier que votre interface est bien connectée, et connaître la vitesse
 et le mode de duplex qui ont été négociés entre vos deux machines ?
 
-    **Remplacez cette phrase avec votre réponse.**
+    `sudo ethtool eth1`
+    
+    Vitesse : 1000Mb/s max
+    Mode de duplex : Full-duplex
+
+    screen
 
 3. Affectez une adresse IPv4 privée de classe A à l’interface ethernet. Notez qu’une adresse IPv6 est déjà
 associée à cette interface. Elle a été configurée automatiquement.
 
     Vous remarquerez qu’une même interface réseau peut très bien être associée à plusieurs adresses IP.
 
-    **Remplacez cette phrase avec votre réponse.**
+    `sudo ip address add 10.2.0.1/8 dev eth1`
+
+    screen
 
 4. Affichez la table de routage. Que constatez-vous ?
 
-    **Remplacez cette phrase avec votre réponse.**
+    `ip route`
+
+    screen
+
+    Je constate qu'il n'y a pas d'entrées dans la table de routage utilisant cette interface.
 
 5. Testez la connectivité avec votre voisin.
 
-    **Remplacez cette phrase avec votre réponse.**
+    `ping 10.2.0.2` (adresse ip privée de mon voisin)
+
+    screen
+
+    Le ping fonctionne entre les deux machines connectées point à point.
 
 ## Concentrateur (hub)
 
@@ -182,15 +200,20 @@ Supprimez les filtres de capture et d'affichage préalablement configurés.
 constatez-vous ? Déduisez-en la manière dont les données sont transmises par cet équipement. Les
 données émises par un poste sont-elles reçues par ce même poste ?
 
-    **Remplacez cette phrase avec votre réponse.**
+    screen
+
+    (seuls sur le hub au moment du screen)
+
+    On voit les pings de toutes les personnes connectées sur le hub et on peut ping toutes les personnes connectées sur le hub.
 
 2. Recommencez la manipulation en désactivant le mode promiscuous de wireshark. A quoi sert-il ?
 
-    **Remplacez cette phrase avec votre réponse.**
+    Il sert à afficher seulement les requêtes qui arrive sur la carte réseau et pas tout ce qui arrive sur le réseau.
+    On ne voit que les pings concernant l'interface de mon poste.
 
 3. Quel est le mode de duplex des interfaces connectées au hub ? Quelle en est la signification ?
 
-    **Remplacez cette phrase avec votre réponse.**
+    Half-duplex
 
 4. Quelles sont les topologies physique et logique du réseau constitué par le concentrateur et les postes qui y
 sont connectés ?
@@ -209,6 +232,16 @@ fonctionne un hub.
 
    Les postes connectés entre eux via des concentrateurs forment un **domaine de collision**.
 
+    screen(1)
+    compter a partir de ligne 4
+
+    `ifconfig` pour voir collisions
+
+    screen(2)
+    182 collisions avant manipulation
+
+    screen(3)
+    682 après manipulation avec deux connecions simultanées
 
 ## Commutateur (switch)
 
