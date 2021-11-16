@@ -129,6 +129,8 @@ adresse ? Quelle est l’adresse IP de destination de la requête ? A quoi corre
 Mon adresse : fe80::e654:e8ff:fe59:7df7/64
 Son adresse : fe80::e654:e8ff:fe59:6562/64
 
+    **Remplacez cette phrase avec votre réponse.**
+
 11. Affichez la liste des correspondances entre adresses IP et adresses ethernet. Vérifiez que l’adresse IPv4 et
 l’adresse IPv6 de votre voisin y figurent, associées à son adresse MAC. Attention : les entrées de ce cache
 ont une durée de vie limitée à quelques minutes.
@@ -228,8 +230,6 @@ en parallèle sur les deux paires de postes.
 Notez le débit atteint et les nouvelles valeurs des compteurs de collisions. Déduisez-en la manière dont
 fonctionne un hub.
 
-    **Remplacez cette phrase avec votre réponse.**
-
    Les postes connectés entre eux via des concentrateurs forment un **domaine de collision**.
 
     screen(1)
@@ -253,11 +253,13 @@ Réactivez le mode promiscuous.
 1. Lancez une capture de trames sur un poste, et transmettez un ping entre les deux autres postes. Que
 constatez-vous ? Déduisez-en la manière dont les données sont transmises par cet équipement.
 
-    **Remplacez cette phrase avec votre réponse.**
+    3 screens : 2 machines qui me ping et un ping entre les deux autres
 
 2. Quel est le mode de duplex des interfaces connectées au hub ? Quelle en est la signification ?
 
-    **Remplacez cette phrase avec votre réponse.**
+    `sudo ethtool eth1`
+    screen
+    Full-Duplex
 
 3. Quelles sont les topologies physique et logique du réseau constitué par le concentrateur et les postes qui y
 sont connectés ?
@@ -272,7 +274,7 @@ manip en parallèle sur les deux paires de postes.
 Notez le débit atteint et les nouvelles valeurs des compteurs de collisions. Déduisez-en la manière dont
 fonctionne un switch.
 
-    **Remplacez cette phrase avec votre réponse.**
+    
 
     Pour paramétrer les équipements réseau et obtenir des informations sur leur configuration, il faut établir une
 liaison série entre votre poste de travail et le port console de l'équipement en question.
