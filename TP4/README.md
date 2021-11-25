@@ -274,7 +274,7 @@ manip en parallèle sur les deux paires de postes.
 Notez le débit atteint et les nouvelles valeurs des compteurs de collisions. Déduisez-en la manière dont
 fonctionne un switch.
 
-    
+    screens
 
     Pour paramétrer les équipements réseau et obtenir des informations sur leur configuration, il faut établir une
 liaison série entre votre poste de travail et le port console de l'équipement en question.
@@ -293,7 +293,7 @@ table de commutation.
 connectés. Comment le switch a-t-il obtenu ces adresses ? Quel est le rôle de la table de commutation
 (appelée aussi table d'adresses MAC) ?
 
-    **Remplacez cette phrase avec votre réponse.**
+    2 screens
 
 6. Pour fonctionner correctement, le switch a-t-il besoin de connaître les adresses mac des trames ? les
 adresses IP des paquets ? Déduisez-en à quels niveaux du modèle OSI interviennent un switch et un hub
@@ -315,12 +315,12 @@ moment à plusieurs interfaces d’un commutateur ?
 vers l'adresse IP 255.255.255.255. Que constatez-vous ? Comment s'appelle ce type de transfert ? Quelle
 est l'adresse ethernet de destination des trames reçues ?
 
-    **Remplacez cette phrase avec votre réponse.**
+    2 screens
 
 10. Envoyez un ping vers l’adresse ff02::1. Que constatez-vous ? Comment s'appelle ce type de transfert ?
 Quelle est l'adresse ethernet de destination des trames reçues ?
 
-    **Remplacez cette phrase avec votre réponse.**
+    screen
 
     Un commutateur permet de segmenter les domaines de collisions.
 Les postes connectés par l'intermédiaire de commutateurs constituent un **domaine de broadcast**.
