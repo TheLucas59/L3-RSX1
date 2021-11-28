@@ -165,7 +165,7 @@ et le mode de duplex qui ont été négociés entre vos deux machines ?
     Vitesse : 1000Mb/s max
     Mode de duplex : Full-duplex
 
-    screen
+    ![ethtool](./Screenshots/P2Q2.png "interface connectée")
 
 3. Affectez une adresse IPv4 privée de classe A à l’interface ethernet. Notez qu’une adresse IPv6 est déjà
 associée à cette interface. Elle a été configurée automatiquement.
@@ -174,13 +174,13 @@ associée à cette interface. Elle a été configurée automatiquement.
 
     `sudo ip address add 10.2.0.1/8 dev eth1`
 
-    screen
+    ![ip add](./Screenshots/P2Q3.png "ajout adresse ipv4")
 
 4. Affichez la table de routage. Que constatez-vous ?
 
     `ip route`
 
-    screen
+    ![ip route](./Screenshots/P2Q4.png "table de routage")
 
     Je constate qu'il n'y a pas d'entrées dans la table de routage utilisant cette interface.
 
@@ -188,7 +188,7 @@ associée à cette interface. Elle a été configurée automatiquement.
 
     `ping 10.2.0.2` (adresse ip privée de mon voisin)
 
-    screen
+    ![ping](./Screenshots/P2Q5.png "ping")
 
     Le ping fonctionne entre les deux machines connectées point à point.
 
@@ -202,7 +202,7 @@ Supprimez les filtres de capture et d'affichage préalablement configurés.
 constatez-vous ? Déduisez-en la manière dont les données sont transmises par cet équipement. Les
 données émises par un poste sont-elles reçues par ce même poste ?
 
-    screen
+    ![wireshark](./Screenshots/P3Q1.png "capture de trames")
 
     (seuls sur le hub au moment du screen)
 
@@ -232,15 +232,15 @@ fonctionne un hub.
 
    Les postes connectés entre eux via des concentrateurs forment un **domaine de collision**.
 
-    screen(1)
-    compter a partir de ligne 4
+   ![iperf](./Screenshots/P3Q5(1).png "iperf mode serveur")    
+   compter a partir de ligne 4
 
     `ifconfig` pour voir collisions
 
-    screen(2)
-    182 collisions avant manipulation
+   ![ifconfig avant](./Screenshots/P3Q5(2).png "collisions avant connexion")    
+   182 collisions avant manipulation
 
-    screen(3)
+   ![ifconfig après](./Screenshots/P3Q5(3).png "collisions après connexion")
     682 après manipulation avec deux connecions simultanées
 
 ## Commutateur (switch)
@@ -253,12 +253,17 @@ Réactivez le mode promiscuous.
 1. Lancez une capture de trames sur un poste, et transmettez un ping entre les deux autres postes. Que
 constatez-vous ? Déduisez-en la manière dont les données sont transmises par cet équipement.
 
-    3 screens : 2 machines qui me ping et un ping entre les deux autres
+    ![wireshark](./Screenshots/P4Q1(1).png "capture de trames pc qui ping")
+
+    ![wireshark](./Screenshots/P4Q1(2).png "capture de trames pc qui reçoit le ping")
+
+    ![wireshark](./Screenshots/P4Q1(3).png "capture de trames autre pc connecté au switch")
+    
 
 2. Quel est le mode de duplex des interfaces connectées au hub ? Quelle en est la signification ?
 
     `sudo ethtool eth1`
-    screen
+    ![ethtool](./Screenshots/P4Q2.png "ethtool switch")
     Full-Duplex
 
 3. Quelles sont les topologies physique et logique du réseau constitué par le concentrateur et les postes qui y
@@ -274,7 +279,13 @@ manip en parallèle sur les deux paires de postes.
 Notez le débit atteint et les nouvelles valeurs des compteurs de collisions. Déduisez-en la manière dont
 fonctionne un switch.
 
-    screens
+    ![iperf](./Screenshots/P4Q4(1).png "iperf serveur")
+
+    ![ifconfig](./Screenshots/P4Q4(2).png "collisions avant connexion")
+
+    ![iperf](./Screenshots/P4Q4(3).png "iperf connexion")
+
+    ![ifconfig](./Screenshots/P4Q4(4).png "collisions après connexions")
 
     Pour paramétrer les équipements réseau et obtenir des informations sur leur configuration, il faut établir une
 liaison série entre votre poste de travail et le port console de l'équipement en question.
@@ -293,7 +304,10 @@ table de commutation.
 connectés. Comment le switch a-t-il obtenu ces adresses ? Quel est le rôle de la table de commutation
 (appelée aussi table d'adresses MAC) ?
 
-    2 screens
+    ![switch](./Screenshots/P4Q5(1).jpg "branchements sur le switch ")
+
+    ![console switch](./Screenshots/P4Q5(2).png "table de commutation")
+
 
 6. Pour fonctionner correctement, le switch a-t-il besoin de connaître les adresses mac des trames ? les
 adresses IP des paquets ? Déduisez-en à quels niveaux du modèle OSI interviennent un switch et un hub
@@ -315,12 +329,14 @@ moment à plusieurs interfaces d’un commutateur ?
 vers l'adresse IP 255.255.255.255. Que constatez-vous ? Comment s'appelle ce type de transfert ? Quelle
 est l'adresse ethernet de destination des trames reçues ?
 
-    2 screens
+    ![wireshark](./Screenshots/P4Q9(1).png "capture de trames broadcast")
+
+    ![ping](./Screenshots/P4Q9(2).png "ping sur le broadcast")
 
 10. Envoyez un ping vers l’adresse ff02::1. Que constatez-vous ? Comment s'appelle ce type de transfert ?
 Quelle est l'adresse ethernet de destination des trames reçues ?
 
-    screen
+    ![capture ping ipv6](./Screenshots/P4Q10.png "ping ipv6 sur le broadcast")
 
     Un commutateur permet de segmenter les domaines de collisions.
 Les postes connectés par l'intermédiaire de commutateurs constituent un **domaine de broadcast**.
