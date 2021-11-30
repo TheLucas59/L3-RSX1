@@ -8,9 +8,13 @@
 1. Sur votre machine, quel est le nom de l’interface connectée au réseau de la salle de TP ? Quelle est son
 adresse IPv4 ? Quelle est son adresse IPv6 ? Quelle est son adresse MAC ?
 
-    J'ai éxecuté la commande `ip address` pour obtenir ces informations.
+    J'ai éxecuté la commande suivante pour obtenir ces informations :
 
-    L'interface connectée au réseau est enp0s3.
+    ```bash
+    ip address
+    ```
+
+    L'interface connectée au réseau est `enp0s3`.
 
     iPv4 : 10.0.2.15/24
 
@@ -22,7 +26,10 @@ adresse IPv4 ? Quelle est son adresse IPv6 ? Quelle est son adresse MAC ?
 maximale supportée par l’interface ? Quel le mode de duplex ? Vérifiez que l’interface est bien
 connectée.
 
-    J'ai éxécuté la commande `sudo ethtool enp0s3`
+    J'ai éxécuté la commande :
+    ```bash
+    sudo ethtool enp0s3
+    ```
 
     Vitesse : 1000Mb/s. C'est la vitesse maximale supportée par l'interface.
 
@@ -116,6 +123,7 @@ posée par la requête ?
     Avant l'envoi du ping IPv4, on voit effectivement un échange de messages ARP. Dans mon cas, cet échange est un peu particuilier : comme je réalise cette partie sur une machine virtuelle sous VirtualBox, l'adresse de destination de requête est l'adresse `10.0.2.2` et non l'adresse ip de mon smartphone `192.168.0.24`. L'adresse `10.0.2.2` représente la gateway de la machine virtuelle vers l'extérieur. Le message ARP est envoyé sur cette gateway.
 
     ![requête arp](./Screenshots/P1Q9(2).png "ARP requête")
+
     L'adresse matérielle de destination de la requête est 00:00:00:00:00:00 (l'adresse ip est bien 10.0.2.2)
     Cette adresse est la gateway de la machine virtuelle vers l'extérieur.
     La question posée par la requête est "Qui a l'adresse 10.0.2.2 ?"
@@ -160,11 +168,16 @@ baie de brassage.
 2. Quelle commande utilisez-vous pour vérifier que votre interface est bien connectée, et connaître la vitesse
 et le mode de duplex qui ont été négociés entre vos deux machines ?
 
-    `sudo ethtool eth1`
+    On exécute la commande suivante :
+    ```bash
+    sudo ethtool eth1
+    ```
     
     Vitesse : 1000Mb/s max
+
     Mode de duplex : Full-duplex
 
+    On peut voir toutes les informations de cette interface réseau sur la capture d'écran suivante.
     ![ethtool](./Screenshots/P2Q2.png "interface connectée")
 
 3. Affectez une adresse IPv4 privée de classe A à l’interface ethernet. Notez qu’une adresse IPv6 est déjà
@@ -172,21 +185,32 @@ associée à cette interface. Elle a été configurée automatiquement.
 
     Vous remarquerez qu’une même interface réseau peut très bien être associée à plusieurs adresses IP.
 
-    `sudo ip address add 10.2.0.1/8 dev eth1`
+    On exécute la commande suivante pour affecter à l'interface `eth1` l'adresse iPv4 `10.2.0.1/8` :
+
+    ```bash
+    sudo ip address add 10.2.0.1/8 dev eth1
+    ```
 
     ![ip add](./Screenshots/P2Q3.png "ajout adresse ipv4")
 
 4. Affichez la table de routage. Que constatez-vous ?
 
-    `ip route`
+    Pour afficher la table de routage, on exécute cette commande :
+    ```bash
+    ip route
+    ```
 
     ![ip route](./Screenshots/P2Q4.png "table de routage")
 
-    Je constate qu'il n'y a pas d'entrées dans la table de routage utilisant cette interface.
+    Je constate qu'il n'y a pas d'entrées dans la table de routage utilisant cette interface. Les entrées présentes concernent l'interface `eth2` qui est l'interface connectée vers l'extérieur.
 
 5. Testez la connectivité avec votre voisin.
 
-    `ping 10.2.0.2` (adresse ip privée de mon voisin)
+    Je teste la connectivité avec mon voisin avec la commande `ping` et son interface est configurée avec l'adresse `10.2.0.2`
+
+    ```bash
+    ping 10.2.0.2
+    ```
 
     ![ping](./Screenshots/P2Q5.png "ping")
 
@@ -204,9 +228,11 @@ données émises par un poste sont-elles reçues par ce même poste ?
 
     ![wireshark](./Screenshots/P3Q1.png "capture de trames")
 
-    (seuls sur le hub au moment du screen)
+    Nous n'étions que deux connectés sur le hub au moment de la capture d'écran. On voit ici le ping entre ma machine et celle de mon voisin. Cependant lorsque d'autres personnes se sont connectés au hub, nous avons bien remarqué que tout le monde peut voir les requêtes et réponses ping qui passent dans le hub. Il est possible de ping n'importe qui tant que cette personne est connectée sur le hub. 
 
-    On voit les pings de toutes les personnes connectées sur le hub et on peut ping toutes les personnes connectées sur le hub.
+    On déduit que les données transmises via le hub sont redirigées vers tous les ports du hub : c'est pour cela que tout le monde peut voir sur son interface les requêtes liées au différents ping.
+
+    On voit sur la capture d'écran que l'on ne reçoit ce que l'on émet, sinon cela apparaîterai en double sur wireshark (on aurait la capture lors de l'émission depuis l'interface ainsi que de la réception de la même requête depuis le hub). 
 
 2. Recommencez la manipulation en désactivant le mode promiscuous de wireshark. A quoi sert-il ?
 
@@ -215,12 +241,11 @@ données émises par un poste sont-elles reçues par ce même poste ?
 
 3. Quel est le mode de duplex des interfaces connectées au hub ? Quelle en est la signification ?
 
-    Half-duplex
+    Le mode de duplex des interfaces connectées au hub est Half-duplex. Cela signifie que la communication entre l'interface et le hub peut se faire dans les deux sens, mais pas simultanément.
 
-4. Quelles sont les topologies physique et logique du réseau constitué par le concentrateur et les postes qui y
-sont connectés ?
+4. Quelles sont les topologies physique et logique du réseau constitué par le concentrateur et les postes qui y sont connectés ?
 
-    **Remplacez cette phrase avec votre réponse.**
+    La topologie du réseau constitué par un hub et les postes connectés est une topologie en étoile.
 
 5. Lancez la commande « iperf -s » sur un poste et « iperf -c ip_du_serveur » sur un autre poste pour lancer
 un test de bande passante. Notez le débit atteint et les valeurs du compteur de collisions (voir annexe)
@@ -232,16 +257,29 @@ fonctionne un hub.
 
    Les postes connectés entre eux via des concentrateurs forment un **domaine de collision**.
 
-   ![iperf](./Screenshots/P3Q5(1).png "iperf mode serveur")    
-   compter a partir de ligne 4
+    Lors de la réalisation de cette manipulation, j'étais le poste qui exécutait la commande :
+    ```bash
+    iperf -s
+    ```
+    C'est donc moi qui recevait les connexions des autres postes.
 
-    `ifconfig` pour voir collisions
+    Sur cette première capture d'écran, on peut voir que l'on a d'abord réalisé un essai avec une seule connexion pour voir le débit puis nous avons réalisé la manipulation avec 2 postes qui se connectent simultanément.
+   ![iperf](./Screenshots/P3Q5(1).png "iperf mode serveur")   
+   On voit déjà que le débit a été divisé par deux ce qui montre bien que la communication est affectée lorsque deux postes échangent simultanément avec le même poste.
+
+   Observons les collisions en regardant les informations générales de l'interface connectée :
+
+    ```bash
+    ifconfig
+    ```
 
    ![ifconfig avant](./Screenshots/P3Q5(2).png "collisions avant connexion")    
    182 collisions avant manipulation
 
    ![ifconfig après](./Screenshots/P3Q5(3).png "collisions après connexion")
-    682 après manipulation avec deux connecions simultanées
+    682 après manipulation avec deux connections simultanées
+
+    On voit ici que des collisions supplémentaires ont été détectées ce qui explique pourquoi le débit a été largement réduit. 
 
 ## Commutateur (switch)
 
@@ -253,23 +291,34 @@ Réactivez le mode promiscuous.
 1. Lancez une capture de trames sur un poste, et transmettez un ping entre les deux autres postes. Que
 constatez-vous ? Déduisez-en la manière dont les données sont transmises par cet équipement.
 
+    Cette capture de trames a été réalisé sur le poste qui envoie le ping.
     ![wireshark](./Screenshots/P4Q1(1).png "capture de trames pc qui ping")
 
+    Cette capture de trames a été réalisé sur le poste qui reçoit le ping.
     ![wireshark](./Screenshots/P4Q1(2).png "capture de trames pc qui reçoit le ping")
 
+    On voit bien que les postes concernés par le ping reçoivent sur leur interface les messages de ce ping ainsi que les messages ARP.
+
+    Cette capture de trames a été réalisé sur un autre pc connecté au switch.
     ![wireshark](./Screenshots/P4Q1(3).png "capture de trames autre pc connecté au switch")
     
+    Contrairement au hub, un poste également connecté au switch mais qui n'est pas concerné par un ping ne va pas voir ces échanges, il verra simplement les requêtes ARP qui sont diffusées en broadcast sur le réseau du switch.
+
 
 2. Quel est le mode de duplex des interfaces connectées au hub ? Quelle en est la signification ?
 
-    `sudo ethtool eth1`
+    On exécute une nouvelle fois la commande suivante pour voir les informations de l'interface :
+    ```bash 
+    sudo ethtool eth1
+    ```
+
     ![ethtool](./Screenshots/P4Q2.png "ethtool switch")
-    Full-Duplex
 
-3. Quelles sont les topologies physique et logique du réseau constitué par le concentrateur et les postes qui y
-sont connectés ?
+    Le mode de duplex est Full-Duplex, cela signifie que la communication est possible dans les deux sens simultanément.
 
-    **Remplacez cette phrase avec votre réponse.**
+3. Quelles sont les topologies physique et logique du réseau constitué par le concentrateur et les postes qui y sont connectés ?
+
+    La topologie du réseau constitué par un switch et les postes connectés est une topologie en étoile.
 
 4. Lancez la commande « iperf -s » sur un poste et « iperf -c ip_du_serveur » sur un autre poste pour lancer
 un test de bande passante. Notez le débit atteint et les valeurs du compteur de collisions (voir annexe)
@@ -279,13 +328,20 @@ manip en parallèle sur les deux paires de postes.
 Notez le débit atteint et les nouvelles valeurs des compteurs de collisions. Déduisez-en la manière dont
 fonctionne un switch.
 
-    ![iperf](./Screenshots/P4Q4(1).png "iperf serveur")
+    Comme pour les hubs, j'étais un des postes qui faisait office de serveur sur le réseau. 
 
+    On voit qu'avant la manipulation, le nombre de collisions était nul sur l'interface.
     ![ifconfig](./Screenshots/P4Q4(2).png "collisions avant connexion")
+
+    Les deux captures d'écrans suivantes montrent une connexion sur le serveur de mon poste ainsi qu'une connexion de mon poste vers un serveur sur un autre poste. Ces connexions ont été réalisé simultanément.
+    ![iperf](./Screenshots/P4Q4(1).png "iperf serveur")
 
     ![iperf](./Screenshots/P4Q4(3).png "iperf connexion")
 
+    On voit sur cette capture d'écran qu'après les connexions, il n'y a pas eu de collisions au niveau de l'interface du poste, contrairement au hub.
     ![ifconfig](./Screenshots/P4Q4(4).png "collisions après connexions")
+
+    Cela signifie que sur un switch, les informations sont transmises port à port mais, grâce au full duplex, il n'y a aucune collisions au niveau de l'interface et le débit reste bon.
 
     Pour paramétrer les équipements réseau et obtenir des informations sur leur configuration, il faut établir une
 liaison série entre votre poste de travail et le port console de l'équipement en question.
@@ -304,39 +360,50 @@ table de commutation.
 connectés. Comment le switch a-t-il obtenu ces adresses ? Quel est le rôle de la table de commutation
 (appelée aussi table d'adresses MAC) ?
 
+    Voici les branchements réalisés au niveau du switch. Nos postes sont les 3 branchés sur la rangée la plus en haut. La prise avec le bout jaune est celle connectée sur un port SJ-C et les captures d'écrans proviennent de ce poste.
     ![switch](./Screenshots/P4Q5(1).jpg "branchements sur le switch ")
+
+    On voit sur la capture suivante 3 adresses MAC connectés sur certains ports. Ce sont effectivement les adresses MAC de nos interfaces réseau (par exemple, la mienne était 30b5.c204.a77d).
 
     ![console switch](./Screenshots/P4Q5(2).png "table de commutation")
 
+    Le switch a obtenu ces adresss MAC lorsque les différentes interfaces ont communiqué via le switch. Ce-dernier va enregistrer ces adresses MAC dans la table de commutation pour les reconnaître, tant qu'elles sont branchées.
 
 6. Pour fonctionner correctement, le switch a-t-il besoin de connaître les adresses mac des trames ? les
 adresses IP des paquets ? Déduisez-en à quels niveaux du modèle OSI interviennent un switch et un hub
 et quelles sont les unités de données sur lesquelles ils agissent.
 
-    **Remplacez cette phrase avec votre réponse.**
+    Le switch a besoin de connaître les adresses MAC des trames puisque la table de commutation ne comprend que les adresses MAC. Les switchs et les hubs fonctionnent donc sur la couche liaison.
 
 7. Concluez sur les avantages du switch par rapport au hub.
 
-    **Remplacez cette phrase avec votre réponse.**
+    Un switch fonctionne comme un hub sur la même couche du modèle OSI. Cependant, il permet d'éviter les problèmes de collisions liés au mode de duplex du hub. Avec le full-duplex, les communications sont plus simples et on a également observé un débit bien plus élevé lors des connexions `iperf` sur le switch que sur le hub.
 
 8. Selon vous, en fonctionnement normal, une interface d’un commutateur peut-elle être associée au même
 moment à plusieurs addresses ethernet ? Une même adresse ethernet peut-elle être associée au même
 moment à plusieurs interfaces d’un commutateur ?
 
-    **Remplacez cette phrase avec votre réponse.**
+     Je pense que l'on peut associer plusieurs adresses à une interface, mais pas une adresse à plusieurs interfaces en même temps.
 
 9. Lancez maintenant une capture de trames sur plusieurs postes connectés au switch et transmettez un ping
 vers l'adresse IP 255.255.255.255. Que constatez-vous ? Comment s'appelle ce type de transfert ? Quelle
 est l'adresse ethernet de destination des trames reçues ?
 
+    On exécute la commande suivante pour ping le broadcast du réseau.
+    ![ping](./Screenshots/P4Q9(2).png "ping sur le broadcast")
+
+    Sur la capture, on voit bien que mon poste émet un ping sur le broadcast et que les deux autres postes connectés répondent à ce ping. 
     ![wireshark](./Screenshots/P4Q9(1).png "capture de trames broadcast")
 
-    ![ping](./Screenshots/P4Q9(2).png "ping sur le broadcast")
+    L'adresse ethernet de destination des réponses est celle de mon poste, l'émetteur de la requête ping.
 
 10. Envoyez un ping vers l’adresse ff02::1. Que constatez-vous ? Comment s'appelle ce type de transfert ?
 Quelle est l'adresse ethernet de destination des trames reçues ?
 
+    Le protocole utilisé ici est le `ICMPv6`, la même chose que pour les pings iPv4 mais pour des adresses iPv6.
     ![capture ping ipv6](./Screenshots/P4Q10.png "ping ipv6 sur le broadcast")
+
+    L'adresse des trames reçues est, comme pour les ping en iPv4, l'adresse iPv6 de l'interface de mon poste qui est l'émetteur du ping.
 
     Un commutateur permet de segmenter les domaines de collisions.
 Les postes connectés par l'intermédiaire de commutateurs constituent un **domaine de broadcast**.
