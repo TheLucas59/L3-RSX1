@@ -453,13 +453,15 @@ vous avez choisi. Que se passe-t-il ?
 trame reçue (sur le poste 3) et l'adresse MAC de destination de la trame envoyée (à partir du poste 1) ?
 Selon vous, à quelles interfaces ethernet correspondent ces adresses ? Pour vous aider, lancez la
 commande « show interface fastethernet » sur le routeur.
+    Q5(1)=P1
+    Q5(2)=P3
 
-    
+    2 screens, destination P3 @MAC pc connecté direct au routeur
 
 6. Comment le poste 1 a-t-il su que la trame ethernet contenant le paquet IP à destination du poste 3 devait
 être envoyée au routeur ?
 
-    **Remplacez cette phrase avec votre réponse.**
+    Avec la route ajoutée à la table de routage (la passerelle).
 
 7. Dessinez un schéma des couches OSI utilisées dans chaque équipement mis en jeu dans le transfert
 unicast (2 postes, 1 switch et 1 routeur), et tracez une ligne représentant le flux de données passant d'un
@@ -470,12 +472,16 @@ unicast (2 postes, 1 switch et 1 routeur), et tracez une ligne représentant le 
 8. Lancez une capture de trames sur les 3 postes et lancez un ping depuis le poste 1 vers l'adresse
 255.255.255.255. Il s'agit d'un transfert en diffusion limitée (broadcast). Que constatez-vous ?
 
-    **Remplacez cette phrase avec votre réponse.**
+    screen 
+
+    On voit que P1, P2 et interface routeur mais pas P3
+    P3 ne voyait rien
 
 9. Lancez une capture de trames sur les 3 postes et lancez un ping depuis le poste 3 vers l'adresse de
 broadcast du réseau sur lequel se trouvent les postes 1 et 2. Que constatez-vous ?
 
-    **Remplacez cette phrase avec votre réponse.**
+    screen
+    Que interface du routeur qui répond à P3
 
     Exécutez les commandes suivantes sur le routeur : <br>
     _Router(config)#interface fastEthernet 0/0_ <br>
@@ -485,7 +491,9 @@ broadcast du réseau sur lequel se trouvent les postes 1 et 2. Que constatez-vou
 vous ? Quelle est l'adresse IP de destination des paquets reçus ? Selon vous, pourquoi ce mode de
 transfert est-il désactivé par défaut ?
 
-    **Remplacez cette phrase avec votre réponse.**
+    2 screens comme les 2 questions précédentes
+
+    désactivé par défaut car P3 peut voir tout les postes connectées au switch
 
 11. Quelle est la différence entre diffusion limitée, diffusion dirigée et unicast.
 
@@ -499,4 +507,6 @@ et un switch vis-à-vis de la diffusion IP.
 13. Reliez votre routeur à celui de votre voisin de manière à ce que touts les machines puissent communiquer
 ensemble.
 
-    **Remplacez cette phrase avec votre réponse.**
+    screen ardoise
+    cable croisé entre routeur
+    configurer route sur postes et sur routeurs
