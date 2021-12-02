@@ -421,18 +421,25 @@ Connectez 3 postes, 1 switch et 1 routeur en suivant ce schéma.
 
 1. Configurez les adresses IP sur les interfaces en vous référant à l’annexe.
 
-    **Remplacez cette phrase avec votre réponse.**
+    Sous-réseaux 1 : 128.10.0.1/16
+    Sous-réseaux 2 : 128.11.0.1/16
+
+    screen
 
 2. Ajoutez une route sur les postes de manière à ce que les postes 1 et 2 puissent communiquer avec le 3.
 
-    **Remplacez cette phrase avec votre réponse.**
+    screen
 
 3. Après avoir lancé une capture de trames sur les postes 2 et 3, lancez un ping depuis le poste 1 vers le
 poste 2, puis vers le poste 3 (voir schéma). Il s'agit d'un transfert unicast. Comparez les valeurs du champ
 TTL de l'entête IP des paquets reçus sur les postes 2 et 3. Pourquoi sont-elles différentes ? Quelle est
 l'utilité de ce champ ?
 
-    **Remplacez cette phrase avec votre réponse.**
+    screen 1 poste 1 a poste 2
+
+    screen 2 poste1 a poste 3
+
+    Différente car faut passer par routeur + définit combien d'étapes fait le ping
 
 4. Quelle devrait être la valeur du TTL pour que le poste 1 puisse communiquer avec le poste 2, mais pas
 avec le poste 3 ? Vérifiez votre réponse en envoyant, depuis le poste 1, un ping avec ce TTL vers les
@@ -440,14 +447,14 @@ postes 2 et 3 (voir « man ping »).
 Lancez une capture sur le poste 1 et envoyez un ping du poste 1 vers le poste 3 en conservant le TTL que
 vous avez choisi. Que se passe-t-il ?
 
-    **Remplacez cette phrase avec votre réponse.**
+    2 screens
 
 5. Lancez de nouveau un ping depuis le poste 1 vers le poste 3. Quelles sont l'adresse MAC source de la
 trame reçue (sur le poste 3) et l'adresse MAC de destination de la trame envoyée (à partir du poste 1) ?
 Selon vous, à quelles interfaces ethernet correspondent ces adresses ? Pour vous aider, lancez la
 commande « show interface fastethernet » sur le routeur.
 
-    **Remplacez cette phrase avec votre réponse.**
+    
 
 6. Comment le poste 1 a-t-il su que la trame ethernet contenant le paquet IP à destination du poste 3 devait
 être envoyée au routeur ?
