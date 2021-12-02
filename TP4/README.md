@@ -421,25 +421,36 @@ Connectez 3 postes, 1 switch et 1 routeur en suivant ce schéma.
 
 1. Configurez les adresses IP sur les interfaces en vous référant à l’annexe.
 
-    Sous-réseaux 1 : 128.10.0.1/16
-    Sous-réseaux 2 : 128.11.0.1/16
+    Sous-réseau 1 : 128.10.0.0/16.
 
-    screen
+    Sous-réseau 2 : 128.11.0.0/16.
+
+    ![configuration routeur](./Screenshots/P5Q1.png)
+
+    L'interface 0/0 du routeur est celle où est branché le switch reliant le poste 1 et le poste 2. L'interface 0/1 correspond à la liaison entre le poste 3 et le switch. La capture d'écran ci-dessus montre la configuration du routeur pour ces deux sous-réseaux.
 
 2. Ajoutez une route sur les postes de manière à ce que les postes 1 et 2 puissent communiquer avec le 3.
 
-    screen
+    ![ajout route](./Screenshots/P5Q2.png "ajout de la route dans la table de routage)
+    
+    On considérera dans la suite de ce rapport que le poste que j'utilise ici est le poste 1 sur la topologie.
+
+    On ajoute ici une route à la table de routage de l'interface reliée au routeur (ici eth0) précisant que pour une adresse IP correspondant au deuxième sous-réseau (aka celui du poste 3) il faut passer par une passerelle qui n'est autre que l'interface du routeur accesible dans le sous réseau du poste 1 et du poste 2.
 
 3. Après avoir lancé une capture de trames sur les postes 2 et 3, lancez un ping depuis le poste 1 vers le
 poste 2, puis vers le poste 3 (voir schéma). Il s'agit d'un transfert unicast. Comparez les valeurs du champ
 TTL de l'entête IP des paquets reçus sur les postes 2 et 3. Pourquoi sont-elles différentes ? Quelle est
 l'utilité de ce champ ?
 
-    screen 1 poste 1 a poste 2
+    Cette capture est l'entête IP d'un paquet reçu lors d'un ping entre le poste 1 et le poste 2. On voit que le champs TTL (Time To Live) vaut 64.
+    ![ping P1->P2](./Screenshots/P5Q3(1).png)
 
-    screen 2 poste1 a poste 3
+    Cette capture est l'entête IP d'un paquet reçu par le poste 3 lors d'un ping du poste 1 vers le poste 3. Le champs TTL vaut ici 63.
+    ![ping P1->P3](./Screenshots/P5Q3(2).png)
 
-    Différente car faut passer par routeur + définit combien d'étapes fait le ping
+    Ces valeurs sont différentes car lors d'un ping entre P1 et P2, le paquet passe par le switch et est directement envoyé sur le port où est branché P2. Lorsque P1 ping P3, le paquet doit sortir du sous-réseau et passer par le routeur pour être redirigé vers l'autre sous-réseaux où se trouve P3. C'est à ce moment là que la valeur du champs TTL est décrémentée.
+
+    Ce champ exprime donc le nombre maximum de routeurs que le paquet IP peut traverser avant de ne plus être valide. 
 
 4. Quelle devrait être la valeur du TTL pour que le poste 1 puisse communiquer avec le poste 2, mais pas
 avec le poste 3 ? Vérifiez votre réponse en envoyant, depuis le poste 1, un ping avec ce TTL vers les
@@ -447,41 +458,50 @@ postes 2 et 3 (voir « man ping »).
 Lancez une capture sur le poste 1 et envoyez un ping du poste 1 vers le poste 3 en conservant le TTL que
 vous avez choisi. Que se passe-t-il ?
 
-    2 screens
+    ![ping TTL 1](./Screenshots/P5Q4(1).png "ping vers P2 et P3 avec un TTL fixé à 1")
+
+    ![ping P1->P3](./Screenshots/P5Q4(2).png "capture de trames lors du ping vers P3 avec TTL à 1")
+
+    Grâce à l'option `-t` de ping, on peut définir nous-même le TTL qui est de base fixé à 64. On le définit ici à 1 et on voit que lorsque P1 ping P2 tout va bien, mais lorsque l'on essaie de ping P3, la requête n'aboutit pas. On voit le message "Time to live exceeded" que ce soit dans le terminal ou sur la capture. En effet avec un TTL à 1 lors du ping, il faut passer par le routeur pour atteindre P3 et donc voir le TTL se décrémenter. Le fait qu'il arrive à 0 donne la mort du signal et il ne peut pas aller plus loin, c'est pour ça que P3 ne recevra jamais ce ping. 
 
 5. Lancez de nouveau un ping depuis le poste 1 vers le poste 3. Quelles sont l'adresse MAC source de la
 trame reçue (sur le poste 3) et l'adresse MAC de destination de la trame envoyée (à partir du poste 1) ?
 Selon vous, à quelles interfaces ethernet correspondent ces adresses ? Pour vous aider, lancez la
 commande « show interface fastethernet » sur le routeur.
-    Q5(1)=P1
-    Q5(2)=P3
 
-    2 screens, destination P3 @MAC pc connecté direct au routeur
+    Cette capture montre les adresses MAC source et destination de la trame envoyée à partir du poste 1.
+    ![paquet P1](./Screenshots/P5Q5(1).png "paquet envoyé par P1 vers P3")
+    L'adresse MAC source est l'adresse MAC de l'interface eth0 du poste 1 et son adresse de destination est la passerelle définit dans la table de routage, soit l'interface du routeur associée au sous-réseau de P1 et P2.
+
+    Cette capture montre les adresses MAC source et destination de la trame reçue à partir du poste 3.
+    ![paquet P3](./Screenshots/P5Q5(2).png "paquet reçu par P3 de P1")
+    L'adresse MAC source est l'adresse MAC de l'interface du routeur liée au sous-réseau de P3. Son adresse de destination est l'adresse MAC de l'interface connectée au routeur du poste 3.
+
 
 6. Comment le poste 1 a-t-il su que la trame ethernet contenant le paquet IP à destination du poste 3 devait
 être envoyée au routeur ?
 
-    Avec la route ajoutée à la table de routage (la passerelle).
+    Avec la route ajoutée à la table de routage (le routeur est la passerelle pour une trame allant vers le sous-réseau 128.11.0.0). 
 
 7. Dessinez un schéma des couches OSI utilisées dans chaque équipement mis en jeu dans le transfert
 unicast (2 postes, 1 switch et 1 routeur), et tracez une ligne représentant le flux de données passant d'un
 équipement à l'autre (communication horizontale) en traversant les couches (communication verticale).
 
-    **Remplacez cette phrase avec votre réponse.**
+    ![couches OSI](./Screenshots/P5Q7.jpg "schéma couches OSI")
 
 8. Lancez une capture de trames sur les 3 postes et lancez un ping depuis le poste 1 vers l'adresse
 255.255.255.255. Il s'agit d'un transfert en diffusion limitée (broadcast). Que constatez-vous ?
 
-    screen 
+    ![broadcast](./Screenshots/P5Q8.png "broadcast de P1")
 
-    On voit que P1, P2 et interface routeur mais pas P3
-    P3 ne voyait rien
+    Je constate que lorsque P1 ping en broadcast, il obtient une réponse de P2 et de l'interface du routeur mais pas de P3. De plus, sur la capture de trames de P3, aucune requête ping n'apparaissait.
+
 
 9. Lancez une capture de trames sur les 3 postes et lancez un ping depuis le poste 3 vers l'adresse de
 broadcast du réseau sur lequel se trouvent les postes 1 et 2. Que constatez-vous ?
 
-    screen
-    Que interface du routeur qui répond à P3
+    ![broadcast](./Screenshots/P5Q9.png "broadcast de P1")
+    A l'inverse de la question précédente, lorsque P3 ping en broadcast sur le réseau de P1 et P2, il n'obtient une réponse que de l'interface du routeur qui correspond à son sous-réseau. P1 et P2 ne voient aucune trace de ces trames sur leur interface respectives.
 
     Exécutez les commandes suivantes sur le routeur : <br>
     _Router(config)#interface fastEthernet 0/0_ <br>
@@ -491,22 +511,33 @@ broadcast du réseau sur lequel se trouvent les postes 1 et 2. Que constatez-vou
 vous ? Quelle est l'adresse IP de destination des paquets reçus ? Selon vous, pourquoi ce mode de
 transfert est-il désactivé par défaut ?
 
-    2 screens comme les 2 questions précédentes
+    On voit sur la capture de trames lors du broadcast de P1 comme précédemment que P2 et l'interface du routeur répond à ce ping en broadcast. On ne voit pas P3.
+    ![broadcast](./Screenshots/P5Q10(1).png "broadcast de P1")
 
-    désactivé par défaut car P3 peut voir tout les postes connectées au switch
+    C'est ici que les choses changent. On voit que P3 capte des réponses au ping provenant de P1.
+    ![broadcast](./Screenshots/P5Q10(2).png "broadcast de P1")
+
+    Ce mode est désactivé par défaut car, à présent, P3 peut directement voir les adresses IP de P1 et P2. Cela créerait des problèmes de sécurité puisque P3 n'appartient pas à ce réseau et peut donc lancer facilement des attaques sur ces postes.
+
 
 11. Quelle est la différence entre diffusion limitée, diffusion dirigée et unicast.
 
-    **Remplacez cette phrase avec votre réponse.**
+    La diffusion limitée correspond à un mode de diffusion où le routeur ne laisse pas passer le broadcast au-delà du réseau local.
+
+    La diffusion dirigée correspond à un mode de diffusion où le routeur ne laisse pas passer le broadcast au-delà du réseau, qui n'est plus nécessairement local.
+
+    L'unicast est un mode de diffusion où la communication se fait entre deux appareils, qu'ils soient dans le même réseau ou pas.
 
 12. Comment un routeur réagit à ces différents types de paquets ? Concluez sur la différence entre un routeur
 et un switch vis-à-vis de la diffusion IP.
 
-    **Remplacez cette phrase avec votre réponse.**
+    Le routeur ne laisse pas passer les trames au-delà du réseau local dans le cas de la diffusion limitée, il les diffuse dans tout le réseau dans le cas de la diffusion dirigée et il les redirige vers le bon hôte/la bonne passerelle dans le cas de l'unicast.
+
+    Un routeur est plus intelligent qu'un switch car il ne va pas forcément rediriger toutes les trames provenant d'un poste vers tout ses ports. C'est configurable.
 
 13. Reliez votre routeur à celui de votre voisin de manière à ce que touts les machines puissent communiquer
 ensemble.
 
-    screen ardoise
-    cable croisé entre routeur
-    configurer route sur postes et sur routeurs
+    ![relier les routeur](./Screenshots/P5Q13.jpg "schéma reliage routeur")
+
+    Ce schéma montre ici deux installations comme décrites dans la topologie de ce TP. Pour que toutes les machines puissent communiquer, il faut relier les deux routeurs entre eux par un câble croisé puis il suffit de configurer correctement les différentes routes des interfaces concernées pour les 2 routeurs et tous les postes. Une fois que les passerelles seront correctement définies et les adresses IP correctement configurées, toutes les machines de ce montage pourront communiquer entre elles via les routeurs liés entre eux.
